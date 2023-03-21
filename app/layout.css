@@ -1,0 +1,17 @@
+@import url('https://rsms.me/inter/inter.css');
+
+body {
+    font-family: 'Inter', sans-serif !important;
+}
+
+.card.win {
+    background-color: yellowgreen !important;
+}
+
+.card.draw {
+    background-color: lightgray !important;
+}
+
+.card.loss {
+    background-color: orangered !important;
+}
