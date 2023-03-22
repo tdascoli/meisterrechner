@@ -32,15 +32,22 @@
     <script>
         let standings = <?= json_encode($mstrrchnr->standings()) ?>;
         let games = <?= json_encode($mstrrchnr->games_json()) ?>;
-
-        $(document).ready(function () {
-            //console.log(standings[0]);
-            //console.log(standings[1]);
-        });
+        let mapping = <?= json_encode($mstrrchnr->mapping_teams()) ?>;
     </script>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <span class="navbar-brand"><strong>YB-Meisterrechner</strong> 2023</span>
+    </div>
+</nav>
+
 <div class="container pt-4">
+    <div class="card m-1 p-4" style="text-align: center;" data-bind="class: meisterClass">
+        <h2 class="card-title" data-bind="text: meisterTitle"></h2>
+        <strong data-bind="text: meisterText"></strong>
+    </div>
     <div class="d-flex">
         <div class="card m-1 w-50">
             <div class="card-body">
@@ -55,7 +62,7 @@
                             $team = $game->teamB();
                         }
 
-                        echo "<div data-bind=\"click: notify.bind(this, 'BSC Young Boys','" . $game->spielnummer . "','" . $game->standing("BSC Young Boys") . "','" . $icon . "')\" class=\"card game m-1 " . $game->standing("BSC Young Boys") . "\" data-team=\"BSC Young Boys\" data-spielnummer=\"" . $game->spielnummer . "\" style=\"width: 23%;\">";
+                        echo "<div data-bind=\"click: notify.bind(this, 'BSC Young Boys','" . $game->spielnummer . "','" . $game->standing("BSC Young Boys") . "','" . $icon . "')\" class=\"card game m-1 " . $game->standing("BSC Young Boys") . "\" data-team=\"BSC Young Boys\" data-spielnummer=\"" . $game->spielnummer . "\" data-opponent=\"" . (($icon=="home") ? $game->teamA : $game->teamB) . "\" style=\"width: 23%;\">";
                         echo '<div class="card-body d-flex flex-column align-items-center">';
                         echo '<small>' . $game->spielrunde . '</small>';
                         echo '<span class="material-symbols-outlined">' . $icon . '</span>';
@@ -97,11 +104,5 @@
         </div>
     </div>
 </div>
-<input data-bind="value: points" />
-<pre>
-    <?php
-    var_dump($mstrrchnr->standings());
-    ?>
-</pre>
 </body>
 </html>
