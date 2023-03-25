@@ -135,7 +135,7 @@ $(document).ready(function () {
                     meister = {champ: "nope"};
                 }
             } else {
-                if (totalGames > gamesLeft) {
+                if (meister.spielrunde < totalGames) {
                     meister = {champ: "champ", game: meister};
                 } else {
                     meister = {champ: "maybe", game: meister};

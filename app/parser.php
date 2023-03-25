@@ -9,4 +9,3 @@ $standings->parse("https://matchcenter.fvbj-afbj.ch/default.aspx?oid=6&lng=1&v=7
 
 $results = new \MSTRRCHNR\ResultParser(__DIR__);
 $results->parse("https://matchcenter.fvbj-afbj.ch/default.aspx?oid=6&lng=1&v=777842&t=52469&ls=21031&sg=60114&a=sp");
-
