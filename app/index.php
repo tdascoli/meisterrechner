@@ -89,7 +89,7 @@
                             $team = $game->teamB();
                         }
 
-                        echo "<div data-bind=\"click: notify.bind(this, '" . $team . "','" . $game->spielnummer . "','" . $game->standing($team) . "','" . $icon . "')\" class=\"card game m-1 " . $game->standing($team) . "\" data-team=\"" . $team . "\" data-spielnummer=\"" . $game->spielnummer . "\" style=\"width: 23%;\">";
+                        echo "<div data-bind=\"click: notify.bind(this, '" . $team . "','" . $game->spielnummer . "','" . $game->standing($second) . "','" . $icon . "')\" class=\"card game m-1 " . $game->standing($second) . "\" data-team=\"" . $team . "\" data-spielnummer=\"" . $game->spielnummer . "\" style=\"width: 23%;\">";
                         echo '<div class="card-body d-flex flex-column align-items-center">';
                         echo '<small>' . $game->spielrunde . '</small>';
                         echo '<span class="material-symbols-outlined">' . $icon . '</span>';
