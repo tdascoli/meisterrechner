@@ -23,8 +23,8 @@
 
     require '../vendor/autoload.php';
 
-    $games = __DIR__ . "\games.csv";
-    $standings = __DIR__ . "\standings.csv";
+    $games = __DIR__ . "/games.csv";
+    $standings = __DIR__ . "/standings.csv";
     $mstrrchnr = new MSTRRCHNR($games, $standings);
     $second = $mstrrchnr->second();
     ?>
