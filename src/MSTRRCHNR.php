@@ -27,16 +27,34 @@ class MSTRRCHNR
         return $this->games->select()->where([["Teamname A" => $team], ["Teamname B" => $team]], CSVDB::OR)->orderBy("Spielrunde")->get(new GameConverter());
     }
 
-    public function games_json():array {
+    public function games_json(): array
+    {
         return $this->games->select()->orderBy("Spielrunde")->get(new StandingConverter());
+    }
 
+    public function schedule(): array
+    {
+        $test = $this->games->select(["Spielrunde", "Spieldatum"])->orderBy("Spielrunde")->get();
+        $spielrunde = array();
+        foreach ($test as $schedule) {
+            if (strtotime($schedule['Spieldatum']) > time()) {
+                $spielrunde[] = $schedule['Spielrunde'];
+            }
+        }
+        return $this->games->select()->where(["Spielrunde" => $spielrunde[0]])->orderBy("Spielnummer")->get(new StandingConverter());
     }
 
     public function second(): string
     {
         $standings = $this->standings();
-        $team = $standings[1];
-        return $team->team;
+        $standing = $standings[1];
+        $team = $standing->team;
+
+        if ($team == self::team($team)) {
+            $team = self::unmap_team($team);
+        }
+
+        return $team;
     }
 
     public function standings(): array
@@ -62,7 +80,38 @@ class MSTRRCHNR
             "FC Sion" => "Sion",
             "FC Winterthur" => "Winti",
             "FC Lugano" => "Lugano",
-            "FC Zürich" => "FCZ"
+            "FC Zürich" => "FCZ",
+
+            "YB" => "YB",
+            "Lugano" => "Lugano",
+            "Servette" => "Servette",
+            "St. Gallen 1879" => "St.Gallen",
+            "Winterthur" => "Winti",
+            "Zürich" => "FCZ"
+        ];
+    }
+
+    public static function unmap_team(string $team): string
+    {
+        $teams = self::unmapping_teams();
+        return $teams[$team];
+    }
+
+    public static function unmapping_teams(): array
+    {
+        return [
+            "YB" => "BSC Young Boys",
+            "Basel" => "FC Basel 1893",
+            "Servette" => "Servette FC",
+            "GC" => "Grasshopper Club Zürich",
+            "St.Gallen" => "FC St. Gallen 1879",
+            "Luzern" => "FC Luzern",
+            "Sion" => "FC Sion",
+            "Winti" => "FC Winterthur",
+            "Lugano" => "FC Lugano",
+            "FCZ" => "FC Zürich",
+            "Winterthur" => "FC Winterthur",
+            "Zürich" => "FC Zürich",
         ];
     }
 }

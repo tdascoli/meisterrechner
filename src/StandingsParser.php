@@ -20,7 +20,7 @@ class StandingsParser
     {
         $this->logger = $this->logger($dir);
         $this->client = new Client();
-        $this->csvdb = new CSVDB($dir . "/" . $file, new CSVConfig(0, "UTF - 8", ";", true, false, false));
+        $this->csvdb = new CSVDB($dir . "/" . $file, new CSVConfig(0, "UTF - 8", ";", true, false, true));
     }
 
     public function parse(string $url): void

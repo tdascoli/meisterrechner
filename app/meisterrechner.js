@@ -108,7 +108,7 @@ $(document).ready(function () {
             let second = self.standings()[1];
 
             // games
-            let totalGames = 36;
+            let totalGames = 38;
             let gamesLeft = first.played();
             let games = _.filter(self.currentGames(), function (o) {
                 return o.teamA === first.team() || o.teamB === first.team();
@@ -145,7 +145,7 @@ $(document).ready(function () {
         });
 
         self.standings = ko.observableArray(standings.map(team => {
-            return new Team(team['team'], team['played'], team['points'], self);
+            return new Team(unmapping[team['team']], team['played'], team['points'], self);
         }));
 
         self.games = ko.observableArray(games);
