@@ -62,4 +62,8 @@ class Game
         }
         return "";
     }
+
+    public function spieldatum(): string {
+        return date("d.m.y", strtotime($this->spieldatum));
+    }
 }

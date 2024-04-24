@@ -1,6 +1,6 @@
 $(document).ready(function () {
     function Team(team, played, points, parent) {
-        var self = this;
+        let self = this;
 
         self.team = ko.observable(team);
         self.played = ko.observable(played);
@@ -21,7 +21,7 @@ $(document).ready(function () {
                     }
                 }
             });
-
+            //console.log("POINTS", team, points);
             return points;
         });
         self.predictablePoints = function (amount) {
@@ -107,6 +107,9 @@ $(document).ready(function () {
             // second
             let second = self.standings()[1];
 
+            // third
+            let third = self.standings()[2];
+
             // games
             let totalGames = 38;
             let gamesLeft = first.played();
@@ -117,9 +120,10 @@ $(document).ready(function () {
             let meister = _.find(games, function (game) {
                 if (game.resultat !== null) {
                     gamesLeft++;
-                    let abstand = game.points - second.predictablePoints(gamesLeft);
+                    let abstand1 = game.points - second.predictablePoints(gamesLeft);
+                    let abstand2 = game.points - third.predictablePoints(gamesLeft);
                     let possiblePoints = (totalGames - gamesLeft) * 3;
-                    return (possiblePoints < abstand)
+                    return (possiblePoints < abstand1) && (possiblePoints < abstand2)
                 }
                 return false;
             });
@@ -127,7 +131,7 @@ $(document).ready(function () {
                 return o.resultat !== null;
             });
 
-            gamesLeft = first.played()+gl.length;
+            gamesLeft = first.played() + gl.length;
             if (meister === undefined) {
                 if (totalGames > gamesLeft) {
                     meister = {champ: "weiw"};
@@ -147,6 +151,8 @@ $(document).ready(function () {
         self.standings = ko.observableArray(standings.map(team => {
             return new Team(unmapping[team['team']], team['played'], team['points'], self);
         }));
+
+        self.table = ko.observableArray(self.standings());
 
         self.games = ko.observableArray(games);
         self.currentGames = ko.pureComputed(function () {
@@ -255,6 +261,20 @@ $(document).ready(function () {
             }
             return points;
         }
+
+        self.rank = function (index) {
+            let rank = index();
+            rank = rank + 1;
+            return rank;
+        }
+
+        self.test = ko.observableArray().watch(self.standings, function () {
+            let table = self.standings.sorted(function (left, right) {
+                return right.points() - left.points();
+            });
+            self.table(table);
+        });
+
     }
 
     // Activates knockout.js

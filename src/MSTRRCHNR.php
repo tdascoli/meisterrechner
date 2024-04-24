@@ -57,6 +57,19 @@ class MSTRRCHNR
         return $team;
     }
 
+    public function third(): string
+    {
+        $standings = $this->standings();
+        $standing = $standings[2];
+        $team = $standing->team;
+
+        if ($team == self::team($team)) {
+            $team = self::unmap_team($team);
+        }
+
+        return $team;
+    }
+
     public function standings(): array
     {
         return $this->standings->select()->orderBy(["Points" => CSVDB::DESC])->get(new TeamConverter());
@@ -105,6 +118,7 @@ class MSTRRCHNR
             "Servette" => "Servette FC",
             "GC" => "Grasshopper Club Zürich",
             "St.Gallen" => "FC St. Gallen 1879",
+            "St. Gallen 1879" => "FC St. Gallen 1879",
             "Luzern" => "FC Luzern",
             "Sion" => "FC Sion",
             "Winti" => "FC Winterthur",
